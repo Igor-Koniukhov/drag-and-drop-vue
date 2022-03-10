@@ -19,21 +19,17 @@ export default createStore({
         historyTasks: (state) => {
             state.tasks.push(state.task)
             localStorage.setItem('tasksList', JSON.stringify(state.tasks))
-
         }
     },
     actions: {
-        saveTasksOnDrop() {
+        saveTasksOnDrop(context) {
+            context.commit('')
             localStorage.setItem('tasksList', JSON.stringify(this.state.tasks))
-
         }
-
-
     },
     modules: {},
     getters: {
         tasksHistory: state => state.tasks,
         createdTask: state => state.task
-
     }
 })
