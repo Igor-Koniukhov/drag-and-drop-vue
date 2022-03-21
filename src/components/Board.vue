@@ -1,29 +1,43 @@
 <template>
-  <div
-      class='drag-el'
-      v-for='item in listOne'
-      :key='item.title'
-      draggable="true"
-      @dragstart="startDrag($event, item)"
-  >
-    <p>{{ item.title }}</p>
-    <p>{{ item.people }}</p>
-    <p>{{ item.date }}</p>
-    <p>{{ item.description }}</p>
-    <span>
-            <a href="#!">
-              <i class="bi bi-trash"></i>
-            </a>
-          </span>
+  <div>
+    <p>{{ board }}</p>
+    <task
+        class="drag-el"
+        v-for="item in list"
+        :key="item.title"
+        :item="item"
+
+    ></task>
   </div>
 </template>
 
 <script>
+import {computed, reactive} from "vue";
+import {useStore} from "vuex";
+import Task from "@/components/Task"
+
 export default {
-  name: "Board"
+  name: "Board",
+  components: {
+    Task
+  },
+  props: ["board"],
+
+  setup(props) {
+    const store = useStore()
+    let items = reactive(store.getters.tasksHistory)
+
+    const list = computed(() => {
+      return items.filter(item => item.list === props.board)
+    });
+
+    return {
+      list
+    }
+  }
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>

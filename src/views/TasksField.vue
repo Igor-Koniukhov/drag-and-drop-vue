@@ -2,125 +2,50 @@
   <div class="container">
     <div class="row">
       <TaskForm class="task-form col-lg-2"/>
-      <div
+      <board
+          v-for="board in boards"
+          :key="board"
+          :board="board"
           class='drop-zone col-3'
-          @drop="onDrop($event, 1)"
+          @drop="onDrop($event, board)"
           @dragover.prevent
           @dragenter.prevent
       >
-        <div
-            class='drag-el'
-            v-for='item in listOne'
-            :key='item.title'
-            draggable="true"
-            @dragstart="startDrag($event, item)"
-        >
-          <p>{{ item.title }}</p>
-          <p>{{ item.people }}</p>
-          <p>{{ item.date }}</p>
-          <p>{{ item.description }}</p>
-          <span>
-            <a href="#!">
-              <i class="bi bi-trash"></i>
-            </a>
-          </span>
-        </div>
-      </div>
-      <div
-          class='drop-zone col-lg-3'
-          @drop="onDrop($event, 2)"
-          @dragover.prevent
-          @dragenter.prevent
-      >
-        <div
-            class="drag-el"
-            v-for="item in listTwo"
-            :key="item.title"
-            draggable="true"
-            @dragstart="startDrag($event, item)"
-        >
-          <p>{{ item.title }}</p>
-          <p>{{ item.people }}</p>
-          <p>{{ item.date }}</p>
-          <p>{{ item.description }}</p>
-          <span>
-            <a href="#!">
-              <i class="bi bi-trash"></i>
-            </a>
-          </span>
-        </div>
-      </div>
-      <div
-          class='drop-zone col-lg-3'
-          @drop="onDrop($event, 3)"
-          @dragover.prevent
-          @dragenter.prevent
-      >
-        <div
-            class="drag-el"
-            v-for="item in listThree"
-            :key="item.title"
-            draggable="true"
-            @dragstart="startDrag($event, item)"
-        >
-          <p>{{ item.title }}</p>
-          <p>{{ item.people }}</p>
-          <p>{{ item.date }}</p>
-          <p>{{ item.description }}</p>
-          <span>
-            <a href="#!">
-              <i class="bi bi-trash"></i>
-            </a>
-          </span>
-        </div>
-      </div>
+
+      </board>
+
 
     </div>
   </div>
 </template>
 <script>
-import {computed, reactive} from "vue";
+import { reactive} from "vue";
 import TaskForm from "@/components/TaskForm";
+import Board from "@/components/Board"
 import {useStore} from "vuex";
 
 
 export default {
   components: {
-    TaskForm
+    TaskForm,
+    Board,
+
   },
   setup() {
     const store = useStore()
+    const boards = reactive([1,2,3,4])
     let items = reactive(store.getters.tasksHistory)
 
-    let startDrag = (evt, item) => {
-      evt.dataTransfer.dropEffect = 'move'
-      evt.dataTransfer.effectAllowed = 'move'
-      evt.dataTransfer.setData('itemID', item.id)
-    }
     let onDrop = (evt, list) => {
       const itemID = evt.dataTransfer.getData('itemID')
       const item = items.find(item => item.id == itemID)
       item.list = list
       store.dispatch('saveTasksOnDrop')
     }
-
-    const listOne = computed(() => {
-      return items.filter(item => item.list === 1)
-    });
-    const listTwo = computed(() => {
-      return items.filter(item => item.list === 2)
-    });
-    const listThree = computed(() => {
-      return items.filter(item => item.list === 3)
-    });
-
     return {
       items,
-      startDrag,
       onDrop,
-      listOne,
-      listTwo,
-      listThree
+      boards
     }
   }
 }

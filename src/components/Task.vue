@@ -1,17 +1,32 @@
 <template>
-  <div
-      class='drop-zone col-3'
-      @drop="onDrop($event, 1)"
-      @dragover.prevent
-      @dragenter.prevent
-  >
-
+  <div draggable="true"
+       @dragstart="startDrag($event, item)" >
+    <p>{{ item.title }}</p>
+    <p>{{ item.people }}</p>
+    <p>{{ item.date }}</p>
+    <p>{{ item.description }}</p>
+    <span>
+            <a href="#!">
+              <i class="bi bi-trash"></i>
+            </a>
+          </span>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Task"
+  name: "Task",
+  props:["item"],
+  setup(){
+    let startDrag = (evt, item) => {
+      evt.dataTransfer.dropEffect = 'move'
+      evt.dataTransfer.effectAllowed = 'move'
+      evt.dataTransfer.setData('itemID', item.id)
+    }
+    return{
+        startDrag
+    }
+  }
 }
 </script>
 
