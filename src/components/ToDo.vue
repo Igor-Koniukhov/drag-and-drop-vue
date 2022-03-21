@@ -1,7 +1,6 @@
 
 <template>
   <div class="container">
-
     <h1> Quick Tasks</h1>
     <ul class="filters">
       <li>
@@ -14,13 +13,15 @@
         <a href="#/completed" :class="{ selected: visibility === 'completed' }">Completed</a>
       </li>
     </ul>
-    <section class="todoapp">
 
+    <section class="todoapp">
+      <button @click="addToDoOnClick" type="submit" class="btn-sm btn-success">+Task</button>
         <input
             class="new-todo"
             autofocus
-            placeholder="What needs to be done?"
+            placeholder="Input task, press Enter"
             @keyup.enter="addTodo"
+
         />
 
         <section class="main" v-show="todos.length">
@@ -75,9 +76,6 @@
 </template>
 
 
-
-
-
 <script setup>
 import { ref, computed, watchEffect } from 'vue'
 
@@ -107,11 +105,12 @@ watchEffect(() => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(todos.value))
 })
 
-function toggleAll(e) {
+let toggleAll= (e)=> {
   todos.value.forEach((todo) => (todo.completed = e.target.checked))
 }
 
-function addTodo(e) {
+let addTodo=(e)=> {
+
   const value = e.target.value.trim()
   if (value) {
     todos.value.push({
@@ -122,23 +121,35 @@ function addTodo(e) {
     e.target.value = ''
   }
 }
+let addToDoOnClick=()=>{
+    let taskInput = document.querySelector('.new-todo')
+  const value = taskInput.value.trim()
+  if (value) {
+    todos.value.push({
+      id: Date.now(),
+      title: value,
+      completed: false
+    })
+    taskInput.value = ''
+  }
+}
 
-function removeTodo(todo) {
+let removeTodo=(todo) =>{
   todos.value.splice(todos.value.indexOf(todo), 1)
 }
 
 let beforeEditCache = ''
-function editTodo(todo) {
+let editTodo=(todo)=> {
   beforeEditCache = todo.title
   editedTodo.value = todo
 }
 
-function cancelEdit(todo) {
+let cancelEdit=(todo)=> {
   editedTodo.value = null
   todo.title = beforeEditCache
 }
 
-function doneEdit(todo) {
+let doneEdit=(todo)=> {
   if (editedTodo.value) {
     editedTodo.value = null
     todo.title = todo.title.trim()
@@ -146,7 +157,7 @@ function doneEdit(todo) {
   }
 }
 
-function removeCompleted() {
+let removeCompleted=()=> {
   todos.value = filters.active(todos.value)
 }
 
@@ -439,14 +450,16 @@ button {
   text-decoration: none;
   border: 1px solid transparent;
   border-radius: 3px;
+  box-shadow: 2px 2px 3px ;
 }
 
 .filters li a:hover {
-  border-color: #DB7676;
+ background-color: rgba(231,123,98,.2);
+
 }
 
 .filters li a.selected {
-  border-color: #CE4646;
+  box-shadow: 1px 1px 1px 1px  rgba(0,0,0,.2);
 }
 
 .clear-completed,

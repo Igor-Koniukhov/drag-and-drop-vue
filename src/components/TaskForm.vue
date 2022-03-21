@@ -3,26 +3,41 @@
     <form @submit.prevent="submitForm">
       <div class="mb-3">
         <label for="title" class="form-label">Title</label>
-        <input type="text" class="form-control" :class="{invalid: titleValidity === 'invalid'}" id="title"
-               v-model.trim="task.title" @blur="validateInput">
+        <input type="text"
+               class="form-control"
+               :class="{invalid: titleValidity === 'invalid'}"
+               id="title"
+               v-model.trim="task.title"
+               @blur="validateInput">
         <small v-if="titleValidity==='invalid' ">Please enter valid data</small>
       </div>
       <div class="mb-3">
         <label for="people" class="form-label">People</label>
-        <input type="number" class="form-control" :class="{invalid:peopleValidity ==='invalid'}" id="people"
-               v-model.trim="task.people" @blur="validatePeople">
+        <input type="number"
+               class="form-control"
+               :class="{invalid:peopleValidity ==='invalid'}"
+               id="people"
+               v-model.trim="task.people"
+               @blur="validatePeople">
         <small v-if="peopleValidity==='invalid'">Please enter valid data</small>
       </div>
       <div class="mb-3">
         <label for="date" class="form-label">Date</label>
-        <input type="date" class="form-control" :class="{invalid:dateValidity ==='invalid'}" id="date"
-               v-model.trim="task.date" @blur="validateDate">
+        <input type="date"
+               class="form-control"
+               :class="{invalid:dateValidity ==='invalid'}" id="date"
+               v-model.trim="task.date"
+               @blur="validateDate">
         <small v-if="dateValidity==='invalid'">Please enter valid data</small>
       </div>
       <div class="mb-3">
         <label for="description" class="form-label">Description</label>
-        <textarea class="form-control" :class="{invalid: descriptionValidity==='invalid'}" id="description"
-                  v-model.trim="task.description" @blur="validateDescription" rows="3"></textarea>
+        <textarea class="form-control"
+                  :class="{invalid: descriptionValidity==='invalid'}"
+                  id="description"
+                  v-model.trim="task.description"
+                  @blur="validateDescription"
+                  rows="3"></textarea>
         <small v-if="descriptionValidity==='invalid'">Please enter description of the task</small>
       </div>
       <button class="btn-success btn-sm mb-2 btn-custom" type="submit">Create task</button>
@@ -70,12 +85,7 @@ export default {
       task.people = null
       task.date = ''
       task.description = ''
-
-
     }
-
-
-
 
     let validateInput = () => {
       if (task.title === '' || task.title.length < 4) {

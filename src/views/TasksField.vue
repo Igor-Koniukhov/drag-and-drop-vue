@@ -19,6 +19,11 @@
           <p>{{ item.people }}</p>
           <p>{{ item.date }}</p>
           <p>{{ item.description }}</p>
+          <span>
+            <a href="#!">
+              <i class="bi bi-trash"></i>
+            </a>
+          </span>
         </div>
       </div>
       <div
@@ -33,12 +38,16 @@
             :key="item.title"
             draggable="true"
             @dragstart="startDrag($event, item)"
-
         >
           <p>{{ item.title }}</p>
           <p>{{ item.people }}</p>
           <p>{{ item.date }}</p>
           <p>{{ item.description }}</p>
+          <span>
+            <a href="#!">
+              <i class="bi bi-trash"></i>
+            </a>
+          </span>
         </div>
       </div>
       <div
@@ -58,6 +67,11 @@
           <p>{{ item.people }}</p>
           <p>{{ item.date }}</p>
           <p>{{ item.description }}</p>
+          <span>
+            <a href="#!">
+              <i class="bi bi-trash"></i>
+            </a>
+          </span>
         </div>
       </div>
 
@@ -78,8 +92,6 @@ export default {
     const store = useStore()
     let items = reactive(store.getters.tasksHistory)
 
-
-
     let startDrag = (evt, item) => {
       evt.dataTransfer.dropEffect = 'move'
       evt.dataTransfer.effectAllowed = 'move'
@@ -91,6 +103,7 @@ export default {
       item.list = list
       store.dispatch('saveTasksOnDrop')
     }
+
     const listOne = computed(() => {
       return items.filter(item => item.list === 1)
     });
@@ -109,11 +122,7 @@ export default {
       listTwo,
       listThree
     }
-
-
   }
-
-
 }
 </script>
 
