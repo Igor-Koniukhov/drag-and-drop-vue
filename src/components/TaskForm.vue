@@ -69,7 +69,6 @@ export default {
     let descriptionValidity = ref('pending')
     let dateValidity = ref('pending')
     let submitForm = () => {
-
       store.commit('taskCreated', {
         id: task.id,
         title: task.title,
@@ -77,7 +76,6 @@ export default {
         people: task.people,
         date: task.date,
         description: task.description,
-
       })
       store.commit('historyTasks')
       task.id++
