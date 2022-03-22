@@ -4,17 +4,13 @@
       <TaskForm class="task-form col-lg-2"/>
       <board
           v-for="board in boards"
-          :key="board"
+          :key="board.id"
           :board="board"
-          class='drop-zone col-3'
-          @drop="onDrop($event, board)"
+          @drop="onDrop($event, board.id)"
           @dragover.prevent
           @dragenter.prevent
       >
-
       </board>
-
-
     </div>
   </div>
 </template>
@@ -33,14 +29,21 @@ export default {
   },
   setup() {
     const store = useStore()
-    const boards = reactive([1,2,3,4])
+    const boards = reactive([
+      {id:1,
+      name: "created"},
+      {id:2,
+      name: "in progress"},
+      {id:3,
+      name: "accepted"}
+    ])
     let items = reactive(store.getters.tasksHistory)
 
     let onDrop = (evt, list) => {
       const itemID = evt.dataTransfer.getData('itemID')
       const item = items.find(item => item.id == itemID)
       item.list = list
-      store.dispatch('saveTasksOnDrop')
+      store.dispatch('saveTasksOnAction')
     }
     return {
       items,

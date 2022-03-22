@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <p>{{ board }}</p>
+  <div  class='drop-zone col-3'>
+    <p class="board-name">{{ board.name }}</p>
     <task
         class="drag-el"
         v-for="item in list"
@@ -28,7 +28,7 @@ export default {
     let items = reactive(store.getters.tasksHistory)
 
     const list = computed(() => {
-      return items.filter(item => item.list === props.board)
+      return items.filter(item => item.list === props.board.id)
     });
 
     return {
@@ -39,5 +39,12 @@ export default {
 </script>
 
 <style>
-
+.drop-zone {
+  background-color: green;
+  margin: 3px 3px 3px 3px;
+  padding: 10px;
+}
+.board-name{
+  text-transform: uppercase;
+}
 </style>

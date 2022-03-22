@@ -22,8 +22,16 @@ export default createStore({
         }
     },
     actions: {
-        saveTasksOnDrop(context) {
+        saveTasksOnAction(context) {
             context.commit('')
+            localStorage.setItem('tasksList', JSON.stringify(this.state.tasks))
+        },
+        removeTask(context, payload){
+            let id = payload.id
+            this.state.tasks=this.state.tasks.filter((item)=>{
+                return item.id != id
+            });
+            console.log(this.state.tasks, "taskId = ", id, this.state.tasks)
             localStorage.setItem('tasksList', JSON.stringify(this.state.tasks))
         }
     },
