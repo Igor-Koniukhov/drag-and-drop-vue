@@ -19,20 +19,24 @@ export default createStore({
         historyTasks: (state) => {
             state.tasks.push(state.task)
             localStorage.setItem('tasksList', JSON.stringify(state.tasks))
+        },
+        updateListOfTasks: (state, tasks)=>{
+            state.tasks=tasks
         }
     },
     actions: {
-        saveTasksOnAction(context) {
-            context.commit('')
+        saveTasksOnAction() {
             localStorage.setItem('tasksList', JSON.stringify(this.state.tasks))
         },
         removeTask(context, payload){
-            let id = payload.id
             this.state.tasks=this.state.tasks.filter((item)=>{
-                return item.id != id
+                return item.id != payload.id
             });
-            console.log(this.state.tasks, "taskId = ", id, this.state.tasks)
+            console.log(this.state.tasks, "taskId = ", payload.id, this.state.tasks)
+
             localStorage.setItem('tasksList', JSON.stringify(this.state.tasks))
+            context.commit('updateListOfTasks',this.state.tasks)
+
         }
     },
     modules: {},

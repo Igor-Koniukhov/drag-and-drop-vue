@@ -1,6 +1,6 @@
 <template>
   <div draggable="true"
-       @dragstart="startDrag($event, item)" >
+       @dragstart="startDrag($event, item)">
     <p>{{ item.title }}</p>
     <p>{{ item.people }}</p>
     <p>{{ item.date }}</p>
@@ -14,33 +14,31 @@
 </template>
 
 <script>
-
-
 import {useStore} from "vuex";
+
 
 export default {
   name: "Task",
-  props:["item"],
-  setup(props){
+  props: ["item"],
+  setup(props) {
+    let store = useStore()
     let startDrag = (evt, item) => {
       evt.dataTransfer.dropEffect = 'move'
       evt.dataTransfer.effectAllowed = 'move'
       evt.dataTransfer.setData('itemID', item.id)
     }
-    let store = useStore()
 
-    let removeTask=()=> {
+     let removeTask = function () {
       console.log("removed", props.item.id)
-     let newTasks= store.dispatch('removeTask',{
-       id: props.item.id
-     })
-      console.log(newTasks)
-      store.dispatch('saveTasksOnAction')
+      store.dispatch('removeTask', {
+        id: props.item.id
+      })
+       window.location.reload()
     }
-    return{
-        startDrag,
-      removeTask,
 
+    return {
+      startDrag,
+      removeTask,
     }
   }
 }

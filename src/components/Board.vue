@@ -1,5 +1,5 @@
 <template>
-  <div  class='drop-zone col-3'>
+  <div class='drop-zone col-3'>
     <p class="board-name">{{ board.name }}</p>
     <task
         class="drag-el"
@@ -27,10 +27,9 @@ export default {
     const store = useStore()
     let items = reactive(store.getters.tasksHistory)
 
-    const list = computed(() => {
+    let list = computed(() => {
       return items.filter(item => item.list === props.board.id)
     });
-
     return {
       list
     }
@@ -44,7 +43,8 @@ export default {
   margin: 3px 3px 3px 3px;
   padding: 10px;
 }
-.board-name{
+
+.board-name {
   text-transform: uppercase;
 }
 </style>
