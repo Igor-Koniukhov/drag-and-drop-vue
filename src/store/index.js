@@ -66,9 +66,7 @@ export default createStore({
                 console.log(item.id, payload.id)
                 return item.id != payload.id
             });
-            console.log(this.state.boards)
-            //localStorage.setItem('boardsList', JSON.stringify(this.state.tasks))
-           // context.commit('updateListOfBoards', this.state.boards)
+
         }
     },
     modules: {},
