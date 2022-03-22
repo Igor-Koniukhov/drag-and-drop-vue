@@ -1,12 +1,12 @@
 <template>
-  <div class='drop-zone col'>
+  <div class='drop-zone col' >
     <p class="board-name">{{ board.name }}</p>
     <task
         class="drag-el"
         v-for="item in list"
         :key="item.title"
         :item="item"
-
+        :style="{background:board.color}"
     ></task>
     <div class="trash">
       <span v-if="board.name !=='created'">
