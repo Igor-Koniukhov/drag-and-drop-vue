@@ -28,7 +28,7 @@ export default {
       evt.dataTransfer.setData('itemID', item.id)
     }
 
-     let removeTask = function () {
+     let removeTask =  () =>{
       console.log("removed", props.item.id)
       store.dispatch('removeTask', {
         id: props.item.id

@@ -1,11 +1,14 @@
 <template>
   <div class="container">
-    <div class="row">
+    <board-form/>
+    <div class="row"
+    >
       <TaskForm class="task-form col-lg-2"/>
       <board
           v-for="board in boards"
           :key="board.id"
           :board="board"
+          draggable="true"
           @drop="onDrop($event, board.id)"
           @dragover.prevent
           @dragenter.prevent
@@ -18,6 +21,7 @@
 import { reactive} from "vue";
 import TaskForm from "@/components/TaskForm";
 import Board from "@/components/Board"
+import BoardForm from "@/components/BoardForm";
 import {useStore} from "vuex";
 
 
@@ -25,19 +29,14 @@ export default {
   components: {
     TaskForm,
     Board,
+    BoardForm,
 
   },
   setup() {
     const store = useStore()
-    const boards = reactive([
-      {id:1,
-      name: "created"},
-      {id:2,
-      name: "in progress"},
-      {id:3,
-      name: "accepted"}
-    ])
+    const boards = reactive(store.getters.boardHistory)
     let items = reactive(store.getters.tasksHistory)
+
 
     let onDrop = (evt, list) => {
       const itemID = evt.dataTransfer.getData('itemID')
@@ -45,10 +44,12 @@ export default {
       item.list = list
       store.dispatch('saveTasksOnAction')
     }
+
     return {
       items,
       onDrop,
-      boards
+      boards,
+
     }
   }
 }

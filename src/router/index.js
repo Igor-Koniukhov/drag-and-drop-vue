@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-import TasksField from "@/views/TasksField";
+import BoardsField from "@/views/BoardsField";
 
 const routes = [
   {
@@ -9,9 +9,9 @@ const routes = [
     component: Home
   },
   {
-    path: '/tasks-field',
-    name: 'TasksField',
-    component: TasksField
+    path: '/boards-field',
+    name: 'BoardsField',
+    component: BoardsField
   }
 ]
 
