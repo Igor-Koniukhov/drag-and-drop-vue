@@ -1,11 +1,14 @@
 <template>
-  <div class='drop-zone col' >
+  <div
+      @dragstart="startDragBoard($event, indexOfBoard)"
+  >
     <p class="board-name">{{ board.name }}</p>
     <task
         class="drag-el"
-        v-for="item in list"
-        :key="item.title"
-        :item="item"
+        v-for="(task, index) in listOfTasks"
+        :index="index"
+        :key="task.title"
+        :task="task"
         :style="{background:board.color}"
     ></task>
     <div class="trash">
@@ -34,19 +37,24 @@ export default {
     Task,
     TrashButton,
   },
-  props: ["board"],
+  props: ["board", "indexOfBoard"],
 
   setup(props) {
     const store = useStore()
-    let items = store.getters.tasksHistory
+    let tasks = store.getters.tasksHistory
     let width=25
     let height=25
 
-    let list = computed(() => {
-      return items.filter(item => item.list === props.board.id)
+    let listOfTasks = computed(() => {
+      return tasks.filter(task => task.list === props.board.id)
     });
+    let startDragBoard = (e, index) => {
+      e.dataTransfer.dropEffect = 'move'
+      e.dataTransfer.effectAllowed = 'move'
+      e.dataTransfer.setData('boardIndex', index)
+      console.log(index)
+    }
     let removeBoard = () => {
-      console.log(props.board.id)
       store.dispatch('removeBoard', {
         id: props.board.id
       })
@@ -54,23 +62,18 @@ export default {
       window.location.reload()
     }
     return {
-      list,
+      listOfTasks,
       removeBoard,
       width,
       height,
+      startDragBoard
     }
   }
 }
 </script>
 
 <style lang="scss">
-.drop-zone {
-  position: relative;
-  background-color: green;
-  margin: 3px 3px 3px 3px;
-  padding: 10px;
-  min-height: 435px;
-}
+
 
 .board-name {
   text-transform: uppercase;

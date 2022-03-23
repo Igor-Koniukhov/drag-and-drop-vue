@@ -1,10 +1,11 @@
 <template>
   <div draggable="true"
-       @dragstart="startDrag($event, item)">
-    <p>{{ item.title }}</p>
-    <p>{{ item.people }}</p>
-    <p>{{ item.date }}</p>
-    <p>{{ item.description }}</p>
+       :index="index"
+       @dragstart="startDragTask($event, task)">
+    <p>{{ task.title }}</p>
+    <p>{{ task.people }}</p>
+    <p>{{ task.date }}</p>
+    <p>{{ task.description }}</p>
     <span>
             <a href="#!" @click="removeTask">
               <i class="bi bi-trash"></i>
@@ -19,25 +20,25 @@ import {useStore} from "vuex";
 
 export default {
   name: "Task",
-  props: ["item"],
+  props: ["task", "index"],
   setup(props) {
     let store = useStore()
-    let startDrag = (evt, item) => {
-      evt.dataTransfer.dropEffect = 'move'
-      evt.dataTransfer.effectAllowed = 'move'
-      evt.dataTransfer.setData('itemID', item.id)
+    let startDragTask = (e, task) => {
+      e.dataTransfer.dropEffect = 'move'
+      e.dataTransfer.effectAllowed = 'move'
+      e.dataTransfer.setData('itemID', task.id)
+      e.dataTransfer.setData('taskIndex', props.index)
     }
 
      let removeTask =  () =>{
-      console.log("removed", props.item.id)
+      console.log("removed", props.task.id)
       store.dispatch('removeTask', {
-        id: props.item.id
+        id: props.task.id
       })
        window.location.reload()
     }
-
     return {
-      startDrag,
+      startDragTask,
       removeTask,
     }
   }
